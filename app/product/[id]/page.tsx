@@ -4,17 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useCart } from '../../context/CartContext'
-
-const allProducts = [
-  { id: 1, name: 'iPhone 13 Pro', category: 'Smartphone', specs: '128GB • Graphite • A15 Bionic', price: 485000, badge: 'UK Used', badgeType: 'default', image: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=600&h=600&fit=crop', description: 'Experience the power of the iPhone 13 Pro with its stunning Super Retina XDR display, A15 Bionic chip, and pro camera system. This UK used device has been thoroughly tested and certified for quality.', features: ['A15 Bionic chip', 'Super Retina XDR display', 'Pro camera system', 'Ceramic Shield front', '5G capable', 'iOS 17 compatible'] },
-  { id: 2, name: 'MacBook Pro M2', category: 'Laptop', specs: '14" • 16GB RAM • 512GB SSD', price: 1250000, badge: 'Premium', badgeType: 'premium', image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=600&h=600&fit=crop', description: 'The MacBook Pro 14" with M2 chip delivers exceptional performance for professionals. With 16GB unified memory and 512GB SSD, tackle any creative or technical task with ease.', features: ['Apple M2 chip', '14-inch Liquid Retina XDR', '16GB unified memory', '512GB SSD storage', 'Up to 17hrs battery', 'MagSafe 3 charging'] },
-  { id: 3, name: 'Samsung Galaxy S22', category: 'Smartphone', specs: '256GB • Phantom Black', price: 365000, badge: 'UK Used', badgeType: 'default', image: 'https://images.unsplash.com/photo-1585790050230-5dd28404ccb9?w=600&h=600&fit=crop', description: 'The Samsung Galaxy S22 combines powerful performance with a stunning design. Featuring a dynamic AMOLED display and versatile camera system for capturing every moment.', features: ['Snapdragon 8 Gen 1', '6.1" Dynamic AMOLED 2X', '50MP triple camera', '256GB storage', 'Wireless charging', 'IP68 water resistant'] },
-  { id: 4, name: 'iPad 9th Gen', category: 'Tablet', specs: '64GB • Wi-Fi • Space Gray', price: 285000, badge: 'Best Seller', badgeType: 'default', image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=600&h=600&fit=crop', description: 'The iPad 9th generation offers incredible value with its A13 Bionic chip, 10.2-inch Retina display, and support for Apple Pencil. Perfect for work, learning, and entertainment.', features: ['A13 Bionic chip', '10.2" Retina display', 'Apple Pencil support', '64GB storage', '12MP Ultra Wide front camera', 'Touch ID'] },
-  { id: 5, name: 'Dell XPS 15', category: 'Laptop', specs: 'i7 • 16GB RAM • 512GB SSD', price: 750000, badge: 'UK Used', badgeType: 'default', image: 'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=600&h=600&fit=crop', description: 'The Dell XPS 15 is a premium laptop featuring a stunning InfinityEdge display, powerful Intel Core i7 processor, and sleek aluminum design perfect for professionals.', features: ['Intel Core i7', '15.6" InfinityEdge display', '16GB DDR5 RAM', '512GB NVMe SSD', 'NVIDIA Graphics', 'Thunderbolt 4'] },
-  { id: 6, name: '4-Camera CCTV Kit', category: 'Security', specs: '1080p • Night Vision • 1TB HDD', price: 185000, badge: 'Popular', badgeType: 'default', image: 'https://images.unsplash.com/photo-1589492477829-5e65395b66cc?w=600&h=600&fit=crop', description: 'Complete security solution with 4 HD cameras, night vision capability, and 1TB storage. Professional installation available. Keep your home or business safe 24/7.', features: ['4x 1080p cameras', 'Night vision up to 30m', '1TB HDD included', 'Mobile app viewing', 'Motion detection alerts', 'Free installation'] },
-  { id: 7, name: 'iPhone 14 Pro Max', category: 'Smartphone', specs: '256GB • Deep Purple • A16 Bionic', price: 750000, badge: 'Premium', badgeType: 'premium', image: 'https://images.unsplash.com/photo-1678685888221-cda773a3dcdb?w=600&h=600&fit=crop', description: 'The ultimate iPhone experience with Dynamic Island, 48MP camera system, and all-day battery life.', features: ['A16 Bionic chip', 'Dynamic Island', '48MP camera system', 'Always-On display', 'Crash Detection', 'Emergency SOS via satellite'] },
-  { id: 8, name: 'Samsung Galaxy S23 Ultra', category: 'Smartphone', specs: '512GB • Green • 200MP', price: 850000, badge: 'Premium', badgeType: 'premium', image: 'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=600&h=600&fit=crop', description: 'The most powerful Galaxy with 200MP camera, S Pen built-in, and Snapdragon 8 Gen 2.', features: ['Snapdragon 8 Gen 2', '200MP camera', 'Built-in S Pen', '6.8" QHD+ display', '5000mAh battery', '45W fast charging'] },
-]
+import { allProducts } from '../../data/products'
 
 export default function ProductPage() {
   const params = useParams()
@@ -160,13 +150,13 @@ export default function ProductPage() {
               
               <div style={{ fontSize: isMobile ? '2rem' : '2.5rem', fontWeight: 700, color: '#e8d5a3', marginBottom: '1.5rem' }}>{formatPrice(product.price)}</div>
 
-              <p style={{ color: '#a0a0a5', fontSize: '1rem', lineHeight: 1.8, marginBottom: '2rem' }}>{product.description}</p>
+              <p style={{ color: '#a0a0a5', fontSize: '1rem', lineHeight: 1.8, marginBottom: '2rem' }}>{product.description || ''}</p>
 
               {/* Features */}
               <div style={{ marginBottom: '2rem' }}>
                 <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: '1.2rem', marginBottom: '1rem', color: '#ffffff' }}>Key Features</h3>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.75rem' }}>
-                  {product.features.map((feature, index) => (
+                  {product.features?.map((feature, index) => (
                     <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#a0a0a5', fontSize: '0.9rem' }}>
                       <span style={{ color: '#c9a962' }}>✓</span>
                       {feature}

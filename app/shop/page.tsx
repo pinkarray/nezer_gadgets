@@ -3,31 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useCart } from '../context/CartContext'
-
-const allProducts = [
-  { id: 1, name: 'iPhone 13 Pro', category: 'phones', subcategory: 'uk-used', specs: '128GB • Graphite • A15 Bionic', price: 485000, badge: 'UK Used', badgeType: 'default', image: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400&h=400&fit=crop' },
-  { id: 2, name: 'iPhone 14 Pro Max', category: 'phones', subcategory: 'premium', specs: '256GB • Deep Purple • A16 Bionic', price: 750000, badge: 'Premium', badgeType: 'premium', image: 'https://images.unsplash.com/photo-1678685888221-cda773a3dcdb?w=400&h=400&fit=crop' },
-  { id: 3, name: 'Samsung Galaxy S22', category: 'phones', subcategory: 'uk-used', specs: '256GB • Phantom Black', price: 365000, badge: 'UK Used', badgeType: 'default', image: 'https://images.unsplash.com/photo-1585790050230-5dd28404ccb9?w=400&h=400&fit=crop' },
-  { id: 4, name: 'Samsung Galaxy S23 Ultra', category: 'phones', subcategory: 'premium', specs: '512GB • Green • 200MP', price: 850000, badge: 'Premium', badgeType: 'premium', image: 'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=400&h=400&fit=crop' },
-  { id: 5, name: 'iPhone 12', category: 'phones', subcategory: 'uk-used', specs: '64GB • Blue • A14 Bionic', price: 320000, badge: 'UK Used', badgeType: 'default', image: 'https://images.unsplash.com/photo-1605236453806-6ff36851218e?w=400&h=400&fit=crop' },
-  { id: 6, name: 'Google Pixel 7 Pro', category: 'phones', subcategory: 'premium', specs: '128GB • Obsidian', price: 520000, badge: 'New', badgeType: 'default', image: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=400&h=400&fit=crop' },
-  { id: 7, name: 'MacBook Pro M2', category: 'laptops', subcategory: 'premium', specs: '14" • 16GB RAM • 512GB SSD', price: 1250000, badge: 'Premium', badgeType: 'premium', image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&h=400&fit=crop' },
-  { id: 8, name: 'Dell XPS 15', category: 'laptops', subcategory: 'uk-used', specs: 'i7 • 16GB RAM • 512GB SSD', price: 750000, badge: 'UK Used', badgeType: 'default', image: 'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=400&h=400&fit=crop' },
-  { id: 9, name: 'HP Spectre x360', category: 'laptops', subcategory: 'uk-used', specs: 'i5 • 8GB RAM • 256GB SSD', price: 450000, badge: 'UK Used', badgeType: 'default', image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=400&fit=crop' },
-  { id: 10, name: 'MacBook Air M1', category: 'laptops', subcategory: 'uk-used', specs: '13" • 8GB RAM • 256GB SSD', price: 650000, badge: 'Best Seller', badgeType: 'default', image: 'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=400&h=400&fit=crop' },
-  { id: 11, name: 'Lenovo ThinkPad X1', category: 'laptops', subcategory: 'premium', specs: 'i7 • 16GB RAM • 1TB SSD', price: 980000, badge: 'Premium', badgeType: 'premium', image: 'https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?w=400&h=400&fit=crop' },
-  { id: 12, name: 'iPad 9th Gen', category: 'tablets', subcategory: 'uk-used', specs: '64GB • Wi-Fi • Space Gray', price: 285000, badge: 'Best Seller', badgeType: 'default', image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400&h=400&fit=crop' },
-  { id: 13, name: 'iPad Pro 12.9"', category: 'tablets', subcategory: 'premium', specs: '256GB • M2 Chip • Wi-Fi', price: 950000, badge: 'Premium', badgeType: 'premium', image: 'https://images.unsplash.com/photo-1561154464-82e9adf32764?w=400&h=400&fit=crop' },
-  { id: 14, name: 'Samsung Tab S8', category: 'tablets', subcategory: 'uk-used', specs: '128GB • Graphite', price: 380000, badge: 'UK Used', badgeType: 'default', image: 'https://images.unsplash.com/photo-1632634727076-c01e4c2f4a06?w=400&h=400&fit=crop' },
-  { id: 15, name: 'Kids Learning Tab', category: 'tablets', subcategory: 'baby-tabs', specs: '32GB • Educational Apps', price: 85000, badge: 'Baby Tab', badgeType: 'default', image: 'https://images.unsplash.com/photo-1527698952657-b5e4d7c4f4fe?w=400&h=400&fit=crop' },
-  { id: 16, name: 'Amazon Fire Kids', category: 'tablets', subcategory: 'baby-tabs', specs: '32GB • Parental Controls', price: 75000, badge: 'Baby Tab', badgeType: 'default', image: 'https://images.unsplash.com/photo-1585790050230-5dd28404ccb9?w=400&h=400&fit=crop' },
-  { id: 17, name: '4-Camera CCTV Kit', category: 'security', subcategory: 'cctv', specs: '1080p • Night Vision • 1TB', price: 185000, badge: 'Popular', badgeType: 'default', image: 'https://images.unsplash.com/photo-1589492477829-5e65395b66cc?w=400&h=400&fit=crop' },
-  { id: 18, name: '8-Camera CCTV Kit', category: 'security', subcategory: 'cctv', specs: '4K • Night Vision • 2TB', price: 350000, badge: 'Pro', badgeType: 'premium', image: 'https://images.unsplash.com/photo-1558002038-1055907df827?w=400&h=400&fit=crop' },
-  { id: 19, name: 'Wireless IP Camera', category: 'security', subcategory: 'cctv', specs: '1080p • Wi-Fi • Motion', price: 45000, badge: 'New', badgeType: 'default', image: 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&h=400&fit=crop' },
-  { id: 20, name: 'HP LaserJet Pro', category: 'printers', subcategory: 'printers', specs: 'Laser • Wi-Fi • Duplex', price: 185000, badge: 'Office', badgeType: 'default', image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=400&h=400&fit=crop' },
-  { id: 21, name: 'Epson EcoTank', category: 'printers', subcategory: 'printers', specs: 'Inkjet • Refillable Tank', price: 145000, badge: 'Eco', badgeType: 'default', image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=400&h=400&fit=crop' },
-  { id: 22, name: 'Canon PIXMA', category: 'printers', subcategory: 'printers', specs: 'All-in-One • Photo Print', price: 95000, badge: 'Home', badgeType: 'default', image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=400&h=400&fit=crop' },
-]
+import { allProducts } from '../data/products'
 
 const categories = [
   { id: 'all', name: 'All Products', icon: '🛍️' },
