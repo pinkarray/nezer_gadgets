@@ -1,13 +1,13 @@
-# Nezer_Gadgets
+# Nezerr_Gadgets
 
-Minimal Next.js starter for the Nezer_Gadgets website.
+Minimal Next.js starter for the Nezerr_Gadgets website.
 
 ## Getting started
 
 1. Install dependencies:
 
 ```bash
-cd Nezer_Gadgets
+cd Nezerr_Gadgets
 npm install
 ```
 

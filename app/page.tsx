@@ -262,7 +262,7 @@ export default function Home() {
             fontWeight: 600,
             color: '#ffffff',
             letterSpacing: '-0.02em',
-          }}>Nezer Gadgets</span>
+          }}>Nezerr Gadgets</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -610,7 +610,7 @@ export default function Home() {
             fontWeight: 300,
             padding: isMobile ? '0 10px' : '0',
           }}>
-            Your trusted source for premium UK used phones, laptops, tablets, and all things tech
+            Your trusted source for premium UK used and brand new everything..
           </p>
 
           <p style={{
@@ -977,7 +977,7 @@ export default function Home() {
             letterSpacing: '0.15em',
             textTransform: 'uppercase',
             marginBottom: '1rem',
-          }}>The Nezer Difference</span>
+          }}>The Nezerr Difference</span>
           <h2 style={{
             fontFamily: "'Playfair Display', Georgia, serif",
             fontSize: isMobile ? '1.8rem' : 'clamp(2rem, 5vw, 3.5rem)',
@@ -1070,9 +1070,9 @@ export default function Home() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
               {[
                 { icon: '📍', title: 'Visit Us', text: 'Lagos, Nigeria' },
-                { icon: '📞', title: 'Call Us', text: '+234 XXX XXX XXXX' },
-                { icon: '✉️', title: 'Email Us', text: 'hello@nezergadgets.com' },
-                { icon: '⏰', title: 'Business Hours', text: 'Mon - Sat: 9AM - 7PM' },
+                { icon: '📞', title: 'Call Us', text: '+234 813 807 4357' },
+                { icon: '✉️', title: 'Email Us', text: 'Ibikunlebenezer@gmail.com' },
+                { icon: '⏰', title: 'Business Hours', text: 'Mon - Sat: 9AM - 4PM' },
               ].map((item, index) => (
                 <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                   <div style={{
@@ -1211,7 +1211,7 @@ export default function Home() {
                 fontSize: '1.3rem',
                 fontWeight: 600,
                 color: '#ffffff',
-              }}>Nezer Gadgets</span>
+              }}>Nezerr Gadgets</span>
             </Link>
             <p style={{ color: '#a0a0a5', fontSize: '0.9rem', lineHeight: 1.7 }}>
               Your trusted destination for premium gadgets. We believe in quality, reliability, and exceptional customer service. Buy Luxury, Buy Peace ✌🏽
@@ -1260,7 +1260,7 @@ export default function Home() {
           gap: '1rem',
         }}>
           <p style={{ color: '#6a6a70', fontSize: '0.85rem', textAlign: isMobile ? 'center' : 'left' }}>
-            © 2024 Nezer Gadgets. All rights reserved.
+            © 2024 Nezerr Gadgets. All rights reserved.
           </p>
           <div style={{ display: 'flex', gap: '0.75rem' }}>
             {['📘', '📸', '🐦', '💬'].map((icon, index) => (

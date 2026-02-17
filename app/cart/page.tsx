@@ -2,18 +2,14 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-
-// Sample cart items for demo
-const initialCartItems = [
-  { id: 1, name: 'iPhone 13 Pro', specs: '128GB • Graphite', price: 485000, quantity: 1, image: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=200&h=200&fit=crop' },
-  { id: 2, name: 'MacBook Pro M2', specs: '14" • 16GB RAM', price: 1250000, quantity: 1, image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=200&h=200&fit=crop' },
-]
+import { useCart } from '../context/CartContext'
 
 export default function CartPage() {
   const [windowWidth, setWindowWidth] = useState(0)
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [cartItems, setCartItems] = useState(initialCartItems)
+
+  const { cartItems, removeFromCart, updateQuantity, getCartTotal, getCartCount, getWhatsAppLink } = useCart()
 
   useEffect(() => {
     setWindowWidth(window.innerWidth)
@@ -37,16 +33,7 @@ export default function CartPage() {
 
   const formatPrice = (price: number) => `₦${price.toLocaleString()}`
 
-  const updateQuantity = (id: number, newQuantity: number) => {
-    if (newQuantity < 1) return
-    setCartItems(items => items.map(item => item.id === id ? { ...item, quantity: newQuantity } : item))
-  }
-
-  const removeItem = (id: number) => {
-    setCartItems(items => items.filter(item => item.id !== id))
-  }
-
-  const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+  const subtotal = getCartTotal()
   const deliveryFee = subtotal > 500000 ? 0 : 5000
   const total = subtotal + deliveryFee
 
@@ -72,7 +59,7 @@ export default function CartPage() {
       }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '0.5rem' : '0.75rem', textDecoration: 'none' }}>
           <div style={{ width: isMobile ? '38px' : '45px', height: isMobile ? '38px' : '45px', background: 'linear-gradient(135deg, #c9a962 0%, #e8d5a3 50%, #c9a962 100%)', borderRadius: isMobile ? '10px' : '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 700, fontSize: isMobile ? '1.2rem' : '1.5rem', color: '#0a0a0b' }}>N</div>
-          <span style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: isMobile ? '1.1rem' : '1.5rem', fontWeight: 600, color: '#ffffff' }}>Nezer Gadgets</span>
+          <span style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: isMobile ? '1.1rem' : '1.5rem', fontWeight: 600, color: '#ffffff' }}>Nezerr Gadgets</span>
         </Link>
 
         {!isMobile && (
@@ -82,16 +69,19 @@ export default function CartPage() {
                 <li key={item.name}><Link href={item.href} style={{ color: '#a0a0a5', textDecoration: 'none', fontSize: isTablet ? '0.85rem' : '0.95rem' }}>{item.name}</Link></li>
               ))}
             </ul>
-            <Link href="/cart" style={{ background: '#c9a962', border: '1px solid #c9a962', color: '#0a0a0b', padding: isTablet ? '0.6rem 1.25rem' : '0.75rem 1.75rem', borderRadius: '100px', fontSize: isTablet ? '0.8rem' : '0.9rem', fontWeight: 500, textDecoration: 'none' }}>🛒 Cart ({cartItems.length})</Link>
+            <Link href="/cart" style={{ background: '#c9a962', border: '1px solid #c9a962', color: '#0a0a0b', padding: isTablet ? '0.6rem 1.25rem' : '0.75rem 1.75rem', borderRadius: '100px', fontSize: isTablet ? '0.8rem' : '0.9rem', fontWeight: 500, textDecoration: 'none' }}>🛒 Cart ({getCartCount()})</Link>
           </>
         )}
 
         {isMobile && (
-          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} style={{ display: 'flex', flexDirection: 'column', gap: '5px', background: 'none', border: 'none', cursor: 'pointer', padding: '8px', zIndex: 102 }}>
-            <span style={{ width: '24px', height: '2px', background: '#ffffff', transition: 'all 0.3s ease', transform: mobileMenuOpen ? 'rotate(45deg) translateY(7px)' : 'none' }} />
-            <span style={{ width: '24px', height: '2px', background: '#ffffff', transition: 'all 0.3s ease', opacity: mobileMenuOpen ? 0 : 1 }} />
-            <span style={{ width: '24px', height: '2px', background: '#ffffff', transition: 'all 0.3s ease', transform: mobileMenuOpen ? 'rotate(-45deg) translateY(-7px)' : 'none' }} />
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <Link href="/cart" style={{ background: '#c9a962', color: '#0a0a0b', padding: '0.5rem 0.75rem', borderRadius: '8px', fontSize: '0.8rem', fontWeight: 600, textDecoration: 'none' }}>🛒 {getCartCount()}</Link>
+            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} style={{ display: 'flex', flexDirection: 'column', gap: '5px', background: 'none', border: 'none', cursor: 'pointer', padding: '8px', zIndex: 102 }}>
+              <span style={{ width: '24px', height: '2px', background: '#ffffff', transition: 'all 0.3s ease', transform: mobileMenuOpen ? 'rotate(45deg) translateY(7px)' : 'none' }} />
+              <span style={{ width: '24px', height: '2px', background: '#ffffff', transition: 'all 0.3s ease', opacity: mobileMenuOpen ? 0 : 1 }} />
+              <span style={{ width: '24px', height: '2px', background: '#ffffff', transition: 'all 0.3s ease', transform: mobileMenuOpen ? 'rotate(-45deg) translateY(-7px)' : 'none' }} />
+            </button>
+          </div>
         )}
       </nav>
 
@@ -152,7 +142,7 @@ export default function CartPage() {
                         
                         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                           <span style={{ fontSize: isMobile ? '1.1rem' : '1.3rem', fontWeight: 600, color: '#e8d5a3' }}>{formatPrice(item.price * item.quantity)}</span>
-                          <button onClick={() => removeItem(item.id)} style={{ background: 'none', border: 'none', color: '#ef4444', fontSize: '0.85rem', cursor: 'pointer', padding: '0.25rem 0.5rem' }}>Remove</button>
+                          <button onClick={() => removeFromCart(item.id)} style={{ background: 'none', border: 'none', color: '#ef4444', fontSize: '0.85rem', cursor: 'pointer', padding: '0.25rem 0.5rem' }}>Remove</button>
                         </div>
                       </div>
                     </div>
@@ -166,7 +156,7 @@ export default function CartPage() {
                 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '1.5rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', color: '#a0a0a5' }}>
-                    <span>Subtotal</span>
+                    <span>Subtotal ({getCartCount()} items)</span>
                     <span>{formatPrice(subtotal)}</span>
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', color: '#a0a0a5' }}>
@@ -182,15 +172,36 @@ export default function CartPage() {
                   </div>
                 </div>
 
-                <button style={{ width: '100%', background: 'linear-gradient(135deg, #c9a962 0%, #e8d5a3 50%, #c9a962 100%)', color: '#0a0a0b', border: 'none', padding: '1rem', borderRadius: '12px', fontSize: '1rem', fontWeight: 600, cursor: 'pointer', marginBottom: '1rem' }}>
-                  Proceed to Checkout
-                </button>
-
-                <a href={`https://wa.me/234XXXXXXXXXX?text=Hi, I'd like to order: ${cartItems.map(i => `${i.name} (x${i.quantity})`).join(', ')}. Total: ${formatPrice(total)}`} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', width: '100%', padding: '1rem', background: '#25D366', color: '#ffffff', border: 'none', borderRadius: '12px', fontSize: '1rem', fontWeight: 600, cursor: 'pointer', textDecoration: 'none' }}>
-                  💬 Order via WhatsApp
+                <a 
+                  href={getWhatsAppLink()} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center', 
+                    gap: '0.5rem', 
+                    width: '100%', 
+                    padding: '1rem', 
+                    background: '#25D366', 
+                    color: '#ffffff', 
+                    border: 'none', 
+                    borderRadius: '12px', 
+                    fontSize: '1rem', 
+                    fontWeight: 600, 
+                    cursor: 'pointer', 
+                    textDecoration: 'none',
+                    marginBottom: '1rem'
+                  }}
+                >
+                  💬 Complete Order on WhatsApp
                 </a>
 
-                <Link href="/shop" style={{ display: 'block', textAlign: 'center', marginTop: '1.5rem', color: '#c9a962', fontSize: '0.9rem', textDecoration: 'none' }}>
+                <p style={{ fontSize: '0.8rem', color: '#6a6a70', textAlign: 'center', marginBottom: '1rem' }}>
+                  Click above to send your order details directly to our WhatsApp for quick processing
+                </p>
+
+                <Link href="/shop" style={{ display: 'block', textAlign: 'center', marginTop: '1rem', color: '#c9a962', fontSize: '0.9rem', textDecoration: 'none' }}>
                   ← Continue Shopping
                 </Link>
               </div>
@@ -202,7 +213,7 @@ export default function CartPage() {
       {/* Footer */}
       <footer style={{ background: '#0a0a0b', borderTop: '1px solid rgba(255,255,255,0.05)', padding: isMobile ? '30px 5%' : '40px 4%', position: 'relative', zIndex: 2, marginTop: '60px' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', flexDirection: isMobile ? 'column' : 'row', justifyContent: 'space-between', alignItems: 'center', gap: '1rem' }}>
-          <p style={{ color: '#6a6a70', fontSize: '0.85rem', textAlign: 'center' }}>© 2024 Nezer Gadgets. All rights reserved.</p>
+          <p style={{ color: '#6a6a70', fontSize: '0.85rem', textAlign: 'center' }}>© 2024 Nezerr Gadgets. All rights reserved.</p>
           <p style={{ color: '#6a6a70', fontSize: '0.85rem', fontStyle: 'italic' }}>"Buy Luxury, Buy Peace" ✌🏽</p>
         </div>
       </footer>

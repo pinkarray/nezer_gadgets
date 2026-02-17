@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { CartProvider } from './context/CartContext'
 
 export const metadata: Metadata = {
-  title: 'Nezer Gadgets | Buy Luxury, Buy Peace ✌🏽',
+  title: 'Nezerr Gadgets | Buy Luxury, Buy Peace ✌🏽',
   description: 'Your trusted source for premium UK used phones, laptops, tablets, CCTV cameras, printers, and expert gadget repairs in Nigeria.',
   keywords: 'UK used phones, laptops, tablets, CCTV, gadget repairs, Nigeria, Lagos',
 }
@@ -22,7 +23,11 @@ export default function RootLayout({
           rel="stylesheet" 
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <CartProvider>
+          {children}
+        </CartProvider>
+      </body>
     </html>
   )
 }

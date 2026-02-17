@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
+import { useCart } from '../../context/CartContext'
 
 const allProducts = [
   { id: 1, name: 'iPhone 13 Pro', category: 'Smartphone', specs: '128GB • Graphite • A15 Bionic', price: 485000, badge: 'UK Used', badgeType: 'default', image: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=600&h=600&fit=crop', description: 'Experience the power of the iPhone 13 Pro with its stunning Super Retina XDR display, A15 Bionic chip, and pro camera system. This UK used device has been thoroughly tested and certified for quality.', features: ['A15 Bionic chip', 'Super Retina XDR display', 'Pro camera system', 'Ceramic Shield front', '5G capable', 'iOS 17 compatible'] },
@@ -11,6 +12,8 @@ const allProducts = [
   { id: 4, name: 'iPad 9th Gen', category: 'Tablet', specs: '64GB • Wi-Fi • Space Gray', price: 285000, badge: 'Best Seller', badgeType: 'default', image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=600&h=600&fit=crop', description: 'The iPad 9th generation offers incredible value with its A13 Bionic chip, 10.2-inch Retina display, and support for Apple Pencil. Perfect for work, learning, and entertainment.', features: ['A13 Bionic chip', '10.2" Retina display', 'Apple Pencil support', '64GB storage', '12MP Ultra Wide front camera', 'Touch ID'] },
   { id: 5, name: 'Dell XPS 15', category: 'Laptop', specs: 'i7 • 16GB RAM • 512GB SSD', price: 750000, badge: 'UK Used', badgeType: 'default', image: 'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=600&h=600&fit=crop', description: 'The Dell XPS 15 is a premium laptop featuring a stunning InfinityEdge display, powerful Intel Core i7 processor, and sleek aluminum design perfect for professionals.', features: ['Intel Core i7', '15.6" InfinityEdge display', '16GB DDR5 RAM', '512GB NVMe SSD', 'NVIDIA Graphics', 'Thunderbolt 4'] },
   { id: 6, name: '4-Camera CCTV Kit', category: 'Security', specs: '1080p • Night Vision • 1TB HDD', price: 185000, badge: 'Popular', badgeType: 'default', image: 'https://images.unsplash.com/photo-1589492477829-5e65395b66cc?w=600&h=600&fit=crop', description: 'Complete security solution with 4 HD cameras, night vision capability, and 1TB storage. Professional installation available. Keep your home or business safe 24/7.', features: ['4x 1080p cameras', 'Night vision up to 30m', '1TB HDD included', 'Mobile app viewing', 'Motion detection alerts', 'Free installation'] },
+  { id: 7, name: 'iPhone 14 Pro Max', category: 'Smartphone', specs: '256GB • Deep Purple • A16 Bionic', price: 750000, badge: 'Premium', badgeType: 'premium', image: 'https://images.unsplash.com/photo-1678685888221-cda773a3dcdb?w=600&h=600&fit=crop', description: 'The ultimate iPhone experience with Dynamic Island, 48MP camera system, and all-day battery life.', features: ['A16 Bionic chip', 'Dynamic Island', '48MP camera system', 'Always-On display', 'Crash Detection', 'Emergency SOS via satellite'] },
+  { id: 8, name: 'Samsung Galaxy S23 Ultra', category: 'Smartphone', specs: '512GB • Green • 200MP', price: 850000, badge: 'Premium', badgeType: 'premium', image: 'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=600&h=600&fit=crop', description: 'The most powerful Galaxy with 200MP camera, S Pen built-in, and Snapdragon 8 Gen 2.', features: ['Snapdragon 8 Gen 2', '200MP camera', 'Built-in S Pen', '6.8" QHD+ display', '5000mAh battery', '45W fast charging'] },
 ]
 
 export default function ProductPage() {
@@ -20,6 +23,8 @@ export default function ProductPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [quantity, setQuantity] = useState(1)
   const [addedToCart, setAddedToCart] = useState(false)
+
+  const { addToCart, getCartCount } = useCart()
 
   const product = allProducts.find(p => p.id === Number(params.id)) || allProducts[0]
 
@@ -46,6 +51,15 @@ export default function ProductPage() {
   const formatPrice = (price: number) => `₦${price.toLocaleString()}`
 
   const handleAddToCart = () => {
+    addToCart({
+      id: product.id,
+      name: product.name,
+      specs: product.specs,
+      price: product.price,
+      quantity: quantity,
+      image: product.image,
+      category: product.category,
+    })
     setAddedToCart(true)
     setTimeout(() => setAddedToCart(false), 2000)
   }
@@ -74,7 +88,7 @@ export default function ProductPage() {
       }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '0.5rem' : '0.75rem', textDecoration: 'none' }}>
           <div style={{ width: isMobile ? '38px' : '45px', height: isMobile ? '38px' : '45px', background: 'linear-gradient(135deg, #c9a962 0%, #e8d5a3 50%, #c9a962 100%)', borderRadius: isMobile ? '10px' : '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 700, fontSize: isMobile ? '1.2rem' : '1.5rem', color: '#0a0a0b' }}>N</div>
-          <span style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: isMobile ? '1.1rem' : '1.5rem', fontWeight: 600, color: '#ffffff' }}>Nezer Gadgets</span>
+          <span style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: isMobile ? '1.1rem' : '1.5rem', fontWeight: 600, color: '#ffffff' }}>Nezerr Gadgets</span>
         </Link>
 
         {!isMobile && (
@@ -84,16 +98,19 @@ export default function ProductPage() {
                 <li key={item.name}><Link href={item.href} style={{ color: '#a0a0a5', textDecoration: 'none', fontSize: isTablet ? '0.85rem' : '0.95rem' }}>{item.name}</Link></li>
               ))}
             </ul>
-            <Link href="/cart" style={{ background: 'transparent', border: '1px solid #c9a962', color: '#c9a962', padding: isTablet ? '0.6rem 1.25rem' : '0.75rem 1.75rem', borderRadius: '100px', fontSize: isTablet ? '0.8rem' : '0.9rem', fontWeight: 500, textDecoration: 'none' }}>🛒 Cart</Link>
+            <Link href="/cart" style={{ background: 'transparent', border: '1px solid #c9a962', color: '#c9a962', padding: isTablet ? '0.6rem 1.25rem' : '0.75rem 1.75rem', borderRadius: '100px', fontSize: isTablet ? '0.8rem' : '0.9rem', fontWeight: 500, textDecoration: 'none' }}>🛒 Cart ({getCartCount()})</Link>
           </>
         )}
 
         {isMobile && (
-          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} style={{ display: 'flex', flexDirection: 'column', gap: '5px', background: 'none', border: 'none', cursor: 'pointer', padding: '8px', zIndex: 102 }}>
-            <span style={{ width: '24px', height: '2px', background: '#ffffff', transition: 'all 0.3s ease', transform: mobileMenuOpen ? 'rotate(45deg) translateY(7px)' : 'none' }} />
-            <span style={{ width: '24px', height: '2px', background: '#ffffff', transition: 'all 0.3s ease', opacity: mobileMenuOpen ? 0 : 1 }} />
-            <span style={{ width: '24px', height: '2px', background: '#ffffff', transition: 'all 0.3s ease', transform: mobileMenuOpen ? 'rotate(-45deg) translateY(-7px)' : 'none' }} />
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <Link href="/cart" style={{ background: '#c9a962', color: '#0a0a0b', padding: '0.5rem 0.75rem', borderRadius: '8px', fontSize: '0.8rem', fontWeight: 600, textDecoration: 'none' }}>🛒 {getCartCount()}</Link>
+            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} style={{ display: 'flex', flexDirection: 'column', gap: '5px', background: 'none', border: 'none', cursor: 'pointer', padding: '8px', zIndex: 102 }}>
+              <span style={{ width: '24px', height: '2px', background: '#ffffff', transition: 'all 0.3s ease', transform: mobileMenuOpen ? 'rotate(45deg) translateY(7px)' : 'none' }} />
+              <span style={{ width: '24px', height: '2px', background: '#ffffff', transition: 'all 0.3s ease', opacity: mobileMenuOpen ? 0 : 1 }} />
+              <span style={{ width: '24px', height: '2px', background: '#ffffff', transition: 'all 0.3s ease', transform: mobileMenuOpen ? 'rotate(-45deg) translateY(-7px)' : 'none' }} />
+            </button>
+          </div>
         )}
       </nav>
 
@@ -172,7 +189,7 @@ export default function ProductPage() {
               </div>
 
               {/* WhatsApp Button */}
-              <a href={`https://wa.me/234XXXXXXXXXX?text=Hi, I'm interested in the ${product.name} (${formatPrice(product.price)})`} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', width: '100%', marginTop: '1rem', padding: '1rem 2rem', background: '#25D366', color: '#ffffff', border: 'none', borderRadius: '12px', fontSize: '1rem', fontWeight: 600, cursor: 'pointer', textDecoration: 'none' }}>
+              <a href={`https://wa.me/2348138074357?text=Hi, I'm interested in the ${product.name} (${formatPrice(product.price)}). Is it available?`} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', width: '100%', marginTop: '1rem', padding: '1rem 2rem', background: '#25D366', color: '#ffffff', border: 'none', borderRadius: '12px', fontSize: '1rem', fontWeight: 600, cursor: 'pointer', textDecoration: 'none' }}>
                 💬 Chat on WhatsApp
               </a>
 
@@ -213,7 +230,7 @@ export default function ProductPage() {
       {/* Footer */}
       <footer style={{ background: '#0a0a0b', borderTop: '1px solid rgba(255,255,255,0.05)', padding: isMobile ? '30px 5%' : '40px 4%', position: 'relative', zIndex: 2 }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', flexDirection: isMobile ? 'column' : 'row', justifyContent: 'space-between', alignItems: 'center', gap: '1rem' }}>
-          <p style={{ color: '#6a6a70', fontSize: '0.85rem', textAlign: 'center' }}>© 2024 Nezer Gadgets. All rights reserved.</p>
+          <p style={{ color: '#6a6a70', fontSize: '0.85rem', textAlign: 'center' }}>© 2024 Nezerr Gadgets. All rights reserved.</p>
           <p style={{ color: '#6a6a70', fontSize: '0.85rem', fontStyle: 'italic' }}>"Buy Luxury, Buy Peace" ✌🏽</p>
         </div>
       </footer>

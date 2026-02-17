@@ -64,7 +64,7 @@ export default function AboutPage() {
       }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '0.5rem' : '0.75rem', textDecoration: 'none' }}>
           <div style={{ width: isMobile ? '38px' : '45px', height: isMobile ? '38px' : '45px', background: 'linear-gradient(135deg, #c9a962 0%, #e8d5a3 50%, #c9a962 100%)', borderRadius: isMobile ? '10px' : '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 700, fontSize: isMobile ? '1.2rem' : '1.5rem', color: '#0a0a0b' }}>N</div>
-          <span style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: isMobile ? '1.1rem' : '1.5rem', fontWeight: 600, color: '#ffffff' }}>Nezer Gadgets</span>
+          <span style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: isMobile ? '1.1rem' : '1.5rem', fontWeight: 600, color: '#ffffff' }}>Nezerr Gadgets</span>
         </Link>
 
         {!isMobile && (
@@ -137,7 +137,7 @@ export default function AboutPage() {
               <span style={{ display: 'inline-block', color: '#c9a962', fontSize: '0.85rem', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '1rem' }}>Who We Are</span>
               <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: isMobile ? '1.8rem' : '2.5rem', fontWeight: 600, marginBottom: '1.5rem' }}>Your Trusted Tech Partner</h2>
               <p style={{ color: '#a0a0a5', fontSize: '1rem', lineHeight: 1.8, marginBottom: '1rem' }}>
-                Nezer Gadgets started as a small venture with a big dream - to bridge the gap between premium technology and affordable pricing in Nigeria. Today, we've grown into a trusted name for quality UK used and premium gadgets.
+                Nezerr Gadgets started as a small venture with a big dream - to bridge the gap between premium technology and affordable pricing in Nigeria. Today, we've grown into a trusted name for quality UK used and premium gadgets.
               </p>
               <p style={{ color: '#a0a0a5', fontSize: '1rem', lineHeight: 1.8, marginBottom: '1.5rem' }}>
                 Every device we sell goes through rigorous testing and quality checks. We believe in transparency, quality, and building lasting relationships with our customers.
@@ -188,7 +188,7 @@ export default function AboutPage() {
       {/* Footer */}
       <footer style={{ background: '#0a0a0b', borderTop: '1px solid rgba(255,255,255,0.05)', padding: isMobile ? '30px 5%' : '40px 4%', position: 'relative', zIndex: 2 }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', flexDirection: isMobile ? 'column' : 'row', justifyContent: 'space-between', alignItems: 'center', gap: '1rem' }}>
-          <p style={{ color: '#6a6a70', fontSize: '0.85rem', textAlign: 'center' }}>© 2024 Nezer Gadgets. All rights reserved.</p>
+          <p style={{ color: '#6a6a70', fontSize: '0.85rem', textAlign: 'center' }}>© 2024 Nezerr Gadgets. All rights reserved.</p>
           <p style={{ color: '#6a6a70', fontSize: '0.85rem', fontStyle: 'italic' }}>"Buy Luxury, Buy Peace" ✌🏽</p>
         </div>
       </footer>
