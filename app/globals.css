@@ -1,0 +1,18 @@
+/* Minimal reset - most styles are inline in page.tsx */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Outfit', system-ui, sans-serif;
+  background: #0a0a0b;
+  color: #ffffff;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
